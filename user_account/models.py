@@ -1,6 +1,6 @@
 from tabnanny import verbose
 from django.db import models
-from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager,AbstractBaseUser,PermissionsMixin
 from django.forms import ValidationError
 import uuid
 # Create your models here.
@@ -27,37 +27,38 @@ class CustomManager(BaseUserManager):
             raise ValidationError('Superuser must have is_superuser true')
         
         return self.create_user(email,password,**extra_kwargs)
-    
-class CustomUser(AbstractBaseUser):
-        id = models.UUIDField(default=uuid.uuid4,primary_key=True)
-        first_name            = models.CharField(max_length=50)
-        last_name             = models.CharField(max_length=50)
-        email                 = models.EmailField(unique=True,null=False,blank=False)
-        phone_number          = models.CharField(max_length=15)
-        address_line_1        = models.CharField(max_length=250)
-        address_line_2        = models.CharField(max_length=250)
-        city                  = models.CharField(max_length=50)
-        state                 = models.CharField(max_length=50)
-        country               = models.CharField(max_length=50)
-        date_joined           = models.DateTimeField(auto_now_add=True)
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True)
+    first_name       = models.CharField(max_length=50)
+    last_name        = models.CharField(max_length=50)
+    email            = models.EmailField(unique=True)
+    phone_number     = models.CharField(max_length=15, unique=True)
+    address_line_1   = models.CharField(max_length=255)
+    address_line_2   = models.CharField(max_length=255, blank=True)
+    city             = models.CharField(max_length=50)
+    state            = models.CharField(max_length=50)
+    country          = models.CharField(max_length=50)
+    date_joined      = models.DateTimeField(auto_now_add=True)
+    is_active        = models.BooleanField(default=False)
+    is_staff         = models.BooleanField(default=False)
+    is_superuser     = models.BooleanField(default=False)
 
-        USERNAME_FIELD = 'email'
-        REQUIRED_FIELDS = ['phone_number']
+    USERNAME_FIELD = "email" 
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone_number']
 
-        objects = CustomManager()
+    objects = CustomManager()
+
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    def __str__(self):
+        return self.email
+
         
-        class Meta:
-            verbose_name = 'User'
-            verbose_name_plural = 'Users'
         
-        def get_full_name(self):
-            return f'{self.first_name} {self.last_name}'
-        
-        def __str__(self):
-            return self.email
-
-
-
-      
 
 
