@@ -1,4 +1,3 @@
-import email
 from multiprocessing import Value
 from urllib import request
 from django.conf import settings
@@ -22,6 +21,8 @@ from .authentication import CustomAuthentication
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework import exceptions
 from django.contrib.auth.password_validation import validate_password
+from rest_framework_simplejwt.exceptions import TokenError
+
 
 # Create your views here.
 
@@ -174,16 +175,27 @@ class ConfirmResetPassword(APIView):
                   return Response({'message':'Password reset successfull!'},status=status.HTTP_201_CREATED)
             return Response({'message':"Invaid or expired Token"},status=status.HTTP_401_UNAUTHORIZED)
       
+class LogoutView(APIView):
+    
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        access_token = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE'])
+        refresh_token = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
 
+        if refresh_token is not None:
+            try:
+                token = RefreshToken(refresh_token)
+                token.blacklist()
+            except (TokenError, AttributeError):
+                pass  
 
-                  
+        response = Response({"message": "Logged out"}, status=status.HTTP_200_OK)
 
-            
+        response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'], path='/')
+        response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'], path='/')
+        response.delete_cookie("csrftoken", path='/')
 
-
-      
-
-
+        return response
 class ProfileView(APIView):
       authentication_classes = [CustomAuthentication]
       Permission_classes = [IsAuthenticated]

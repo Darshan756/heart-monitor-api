@@ -1,14 +1,15 @@
-from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import BaseUserManager,AbstractBaseUser,PermissionsMixin
-from django.forms import ValidationError
 import uuid
+from .choices import UserRole
 # Create your models here.
 class CustomManager(BaseUserManager):
 
     def create_user(self,email,password=None,**extra_kwargs):
         if not email or not password :
             raise ValueError('Invalid credentials')
+        if 'user_role' not in extra_kwargs:
+           raise ValueError('User role is required')
         email = self.normalize_email(email=email)
         user = self.model(email=email,**extra_kwargs)
         user.set_password(password)
@@ -20,17 +21,18 @@ class CustomManager(BaseUserManager):
         extra_kwargs.setdefault('is_superuser',True)
         
         if extra_kwargs.get('is_active') is not True:
-            raise ValidationError('Super user must have is_active true')
+            raise ValueError('Super user must have is_active true')
         if extra_kwargs.get('is_staff') is not True:
-            raise ValidationError('Superuser must have is_staff true')
+            raise ValueError('Superuser must have is_staff true')
         if extra_kwargs.get('is_superuser') is not True:
-            raise ValidationError('Superuser must have is_superuser true')
+            raise ValueError('Superuser must have is_superuser true')
         
         return self.create_user(email,password,**extra_kwargs)
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True)
     first_name       = models.CharField(max_length=50)
     last_name        = models.CharField(max_length=50)
+    user_role        = models.CharField(max_length=20,choices=UserRole.choices,default=UserRole.ADMINISTARTION_STAFF)
     email            = models.EmailField(unique=True)
     phone_number     = models.CharField(max_length=15, unique=True)
     address_line_1   = models.CharField(max_length=255)
