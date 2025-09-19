@@ -23,12 +23,13 @@ class Patient(models.Model):
     phone_number    = models.CharField(max_length=15,unique=True)
     email           = models.EmailField(unique=True,null=True,blank=True)
     address_line_1  = models.CharField(max_length=200)
-    address_line_2  = models.CharField(max_length=200)
+    address_line_2  = models.CharField(max_length=200,null=True,blank=True)
     city            = models.CharField(max_length=50)
     state           = models.CharField(max_length=50)
     country         = models.CharField(max_length=50)
     
     class Meta:
+        ordering = ['first_name']
         verbose_name = 'Patient'
         verbose_name_plural = 'Patients'
     

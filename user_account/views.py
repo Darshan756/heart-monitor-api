@@ -44,7 +44,7 @@ class UserRegisterView(APIView):
                   except Exception as e:
                         return Response({"error": f"Email could not be sent: {str(e)}"}, status=500)
 
-                  return Response({'message':'Registration Successfull! please click the on link in your email to activate your account '},status=status.HTTP_200_OK)
+                  return Response({'message':'Registration Successfull! please click the on link in your email to activate your account '},status=status.HTTP_201_CREATED)
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 class ActivationConfirmView(APIView):

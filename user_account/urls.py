@@ -6,7 +6,7 @@ urlpatterns = [
     path('signin',views.UserSigninView.as_view(),name='signin'),
     path('profile',views.ProfileView.as_view()),
     path('refresh',views.RefreshTokenView.as_view()),
-    path('reset-password',views.ResetPasswordView.as_view()),
+    path('reset-password',views.ResetPasswordView.as_view(),name="reset-password"),
     path('confirm-reset-password/<str:uidb64>/<str:token>',views.ConfirmResetPassword.as_view(),name='confirm_password'),
     path('logout',views.LogoutView.as_view())
 
