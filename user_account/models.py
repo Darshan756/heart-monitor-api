@@ -29,9 +29,14 @@ class CustomManager(BaseUserManager):
         
         return self.create_user(email,password,**extra_kwargs)
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    class Gender(models.TextChoices):
+        MALE = "male", "Male"
+        FEMALE = "female", "Female"
+        OTHER = "other", "Other"
     id = models.UUIDField(default=uuid.uuid4, primary_key=True)
     first_name       = models.CharField(max_length=50)
     last_name        = models.CharField(max_length=50)
+    gender           = models.CharField(max_length=50,choices=Gender.choices,default=Gender.OTHER)
     user_role        = models.CharField(max_length=20,choices=UserRole.choices,default=UserRole.ADMINISTARTION_STAFF)
     email            = models.EmailField(unique=True)
     phone_number     = models.CharField(max_length=15, unique=True)

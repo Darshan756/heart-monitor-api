@@ -16,9 +16,14 @@ class Device(models.Model):
     def __str__(self):
          return f'{self.serial_number} {self.model_name}'
 class Patient(models.Model):
+    class Gender(models.TextChoices):
+        MALE = "male", "Male"
+        FEMALE = "female", "Female"
+        OTHER = "other", "Other"
     id = models.UUIDField(default=uuid.uuid4,primary_key=True)
     first_name      = models.CharField(max_length=150)
     last_name       = models.CharField(max_length=150)
+    gender           = models.CharField(max_length=50,choices=Gender.choices,default=Gender.OTHER)
     date_of_birth   = models.DateField()
     phone_number    = models.CharField(max_length=15,unique=True)
     email           = models.EmailField(unique=True,null=True,blank=True)
