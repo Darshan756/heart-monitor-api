@@ -126,7 +126,7 @@ heartmonitor_api/
    - python manage.py createsuperuser
 7. Run Development Server
    - python manage.py runserver
-   - 
+     
 Project will be available at:
 - http://127.0.0.1:8000/
 #
