@@ -205,10 +205,9 @@ Subsequent requests with cookies + CSRF header allow access to protected endpoin
 
 **To refresh access token when it expires, POST to /api/auth/refresh/ with:**
 
-Refresh token cookie
-
+- Refresh token cookie
 - CSRF token header
-- This allows continued access without re-login.
+This allows continued access without re-login.
 
   
     
