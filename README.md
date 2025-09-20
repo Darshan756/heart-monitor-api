@@ -192,6 +192,7 @@ Authentication Note:
  - This API uses JWT stored in HttpOnly cookies for authentication.
  - All write actions (POST/PUT/PATCH/DELETE) require a valid CSRF token in the request headers.
  - Swagger UI cannot automatically send HttpOnly cookies or CSRF token, so protected endpoints will return 401 Unauthorized if tested directly in Swagger.
+ - 
 How to Test Protected Endpoints:
  - Use Postman or Insomnia for testing authenticated requests.
  - First, call /api/auth/signin/ with your credentials.
@@ -206,8 +207,8 @@ Subsequent requests with cookies + CSRF header allow access to protected endpoin
 
 Refresh token cookie
 
-CSRF token header
-This allows continued access without re-login.
+- CSRF token header
+- This allows continued access without re-login.
 
   
     
