@@ -133,7 +133,7 @@ Project will be available at:
 **API Endpoints**
 - Authentication
   - POST  http://127.0.0.1:8000/api/auth/register/ → Register a new user (activation link sent via email)
-  - POST  http://127.0.0.1:8000/api/auth/activate/<uidb64>/<token>/ → Activate user using token from email
+  - POST  http://127.0.0.1:8000/api/auth/activate/uidb64/token/ → Activate user using token from email
   - POST  http://127.0.0.1:8000/api/auth/signin/ → Login (JWT issued in HttpOnly cookie)
   - POST  http://127.0.0.1:8000/api/auth/refresh/ → Get a new access token using the refresh token (sent in HttpOnly cookie) + CSRF token for security
   - POST  http://127.0.0.1:8000/api/auth/logout/ → Logout and clear cookies
