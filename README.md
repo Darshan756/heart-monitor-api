@@ -5,7 +5,7 @@
 
 
 #
-**Project Overview**
+# **Project Overview**
 - The Heart Monitor API is a Django REST Framework-based backend system designed for hospitals and healthcare centers to:
   - Manage patient admissions
   - Allocate heart monitoring devices
@@ -13,14 +13,14 @@
   - Provide secure authentication and role-based access control
   - The API ensures that only authorized users (Doctors or Nurses) can monitor patients’ heart rates, while sensitive actions like adding devices or admitting patients are restricted to admins. JWT tokens are stored in HttpOnly cookies to enhance security.
 #
-**Key Features**
+# **Key Features**
 - Patient Management: Admit, view, update, and delete patients.
 - Device Management: Add and manage heart monitoring devices via the admin panel only.
 - Patient-Device Mapping: Each patient is assigned a device at admission.
 - Role-Based Access Control: Only Doctors and Nurses can access patient heart rate monitoring endpoints.
 - Secure Authentication: Email activation, login, logout, and password reset.
 #
-**Assumptions & Workflow**
+# **Assumptions & Workflow**
 1. **Patient Registration**
    - Patients are registered in the system first with their basic information (name, age, gender, etc.).
    - Registration can be handled by Admin / Staff.
@@ -40,8 +40,8 @@
    - Password reset link is sent via email to allow users to securely reset their account password.
    - JWT tokens are stored in HttpOnly cookies for security.
    - Users can logout securely at any time.
-  #  
-**Tech Stack Used**
+#  
+# **Tech Stack Used**
 - Backend Framework: Django 5.2.6, Django REST Framework
 - Authentication: JWT (via djangorestframework-simplejwt) with HttpOnly cookies
 - Database: SQLite for local dev
@@ -50,7 +50,7 @@
 - Documentation: DRF Swagger / Redoc
 - Language: Python 3.13
 #
-**Project Structure**
+# **Project Structure**
 
 
 heartmonitor_api/
@@ -103,7 +103,7 @@ heartmonitor_api/
 
 └── README.md                 # Project documentation
 #
-**Installation & Setup**
+# **Installation & Setup**
 1. Clone the Repository
    - git clone https://github.com/Darshan756/heart-monitor-api.git
    - cd heart-monitor-api
@@ -130,7 +130,7 @@ heartmonitor_api/
 Project will be available at:
 - http://127.0.0.1:8000/
 #
-**API Endpoints**
+# **API Endpoints**
 - Authentication
   - POST  http://127.0.0.1:8000/api/auth/register/ → Register a new user (activation link sent via email)
   - POST  http://127.0.0.1:8000/api/auth/activate/<uidb64>/<token>/ → Activate user using token from email
@@ -157,7 +157,7 @@ Project will be available at:
   
   Only users with the role of Doctor or Nurse are allowed to access heart rate monitoring endpoints.
 #
-**Usage / Workflow Example**
+# **Usage / Workflow Example**
 1. User Registration & Activation
    - A new user (Doctor, Nurse, or Admin Staff) registers via /api/auth/register/.
    - An activation link is sent to the registered email.
@@ -176,15 +176,15 @@ Project will be available at:
    - A secure token is sent to their email, allowing them to set a new password.
    - JWT tokens are stored in HttpOnly cookies for secure authentication.
 #
-**Testing Section**
-# Run Tests
+# Testing Section
+ **Run Tests**
 - Run all tests:
   python manage.py test
 
 - Run tests for patients app:
   python manage.py test patients
 #
-**API Documentation & Testing**
+# **API Documentation & Testing**
 - The project provides Swagger and Redoc documentation for all API endpoints:
   - Swagger UI: http://127.0.0.1:8000/swagger/
   - Redoc UI: http://127.0.0.1:8000/redoc/
@@ -192,7 +192,7 @@ Authentication Note:
  - This API uses JWT stored in HttpOnly cookies for authentication.
  - All write actions (POST/PUT/PATCH/DELETE) require a valid CSRF token in the request headers.
  - Swagger UI cannot automatically send HttpOnly cookies or CSRF token, so protected endpoints will return 401 Unauthorized if tested directly in Swagger.
- - 
+   
 How to Test Protected Endpoints:
  - Use Postman or Insomnia for testing authenticated requests.
  - First, call /api/auth/signin/ with your credentials.
@@ -203,10 +203,12 @@ How to Test Protected Endpoints:
    - X-CSRFToken: <csrftoken>
 Subsequent requests with cookies + CSRF header allow access to protected endpoints.
 
-**To refresh access token when it expires, POST to /api/auth/refresh/ with:**
+# **To refresh access token when it expires**
 
+ POST to  http://127.0.0.1:8000/api/auth/refresh/ with:
 - Refresh token cookie
 - CSRF token header
+  
 This allows continued access without re-login.
 
   
